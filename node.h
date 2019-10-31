@@ -2,83 +2,84 @@
 
 
 template <class T>
-class node
+class Node
 {
-	
-	node<T>* left_;
-	node<T>* right_;
-	node<T>* parent_;
+	Node<T>* left_;
+	Node<T>* right_;
+	Node<T>* parent_;
 
 public:
 	T value_;
-	node();
-	explicit node(T);
-	T get_value();
-	node<T>* get_left();
-	node<T>* get_right();
-	void set_left(node<T>*);
-	void set_right(node<T>*);
-	void set_parent(node<T>*);
-	node<T>* get_parent();
+	Node();
+	explicit Node(T);
+	T GetPriorityValue();
+	Node<T>* GetLeftChild();
+	Node<T>* GetRightChild();
+	void SetLeftChild(Node<T>*);
+	void SetRightChild(Node<T>*);
+	void SetParentNode(Node<T>*);
+	Node<T>* GetParentNode();
 };
 
 
-
+// A node with a left, a right child and a priority value
 template <class T>
-node<T>::node()
+Node<T>::Node()
 {
 	left_ = right_ = nullptr;
 }
-
+// A node with a left, a right child and a priority value
 template <class T>
-node<T>::node(T value)
+Node<T>::Node(T value)
 {
 	value_ = value;
 	left_ = right_ = nullptr;
 }
-
+// Get the priority value of this node
 template <class T>
-T node<T>::get_value()
+T Node<T>::GetPriorityValue()
 {
 	return value_;
 }
-
+// Clear
 template <class T>
-node<T>* node<T>::get_left()
+Node<T>* Node<T>::GetLeftChild()
 {
 	return left_;
 }
-
+// Clear
 template <class T>
-node<T>* node<T>::get_right()
+Node<T>* Node<T>::GetRightChild()
 {
 	return right_;
 }
-
+// Clear
 template <class T>
-void node<T>::set_left(node<T>* node)
+void Node<T>::SetLeftChild(Node<T>* node)
 {
 	left_ = node;
 	if (node != nullptr) {
-		node->set_parent(this);
+		node->SetParentNode(this);
 	}
 }
-
+// Clear
 template <class T>
-void node<T>::set_right(node<T>* node)
+void Node<T>::SetRightChild(Node<T>* node)
 {
 	right_ = node;
 	if (node != nullptr) {
-		node->set_parent(this);
+		node->SetParentNode(this);
 	}
 }
+// Clear
 template <class T>
-node<T>* node<T>::get_parent()
+Node<T>* Node<T>::GetParentNode()
 {
 	return parent_;
 }
+// Clear
 template <class T>
-void node<T>::set_parent(node<T>* node)
+void Node<T>::SetParentNode(Node<T>* node)
 {
 	parent_ = node;
 }

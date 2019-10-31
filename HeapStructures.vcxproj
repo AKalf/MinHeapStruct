@@ -152,12 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bst.h" />
+    <ClInclude Include="MinHeapTree.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="visualizer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeapStructures.cpp" />
+    <ClCompile Include="MinHeapTree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -1,2 +1,11 @@
 ﻿  HeapStructures.cpp
+c:\users\alex\source\repos\heapstructures\heapstructures\minheaptree.cpp(104): warning C4018: '<': signed/unsigned mismatch
+  c:\users\alex\source\repos\heapstructures\heapstructures\minheaptree.cpp(96): note: while compiling class template member function 'void minHeapTree<int>::ConnectTree(minHeapTree<int> *)'
+  c:\users\alex\source\repos\heapstructures\heapstructures\minheaptree.cpp(27): note: see reference to function template instantiation 'void minHeapTree<int>::ConnectTree(minHeapTree<int> *)' being compiled
+  c:\users\alex\source\repos\heapstructures\heapstructures\minheaptree.cpp(7): note: while compiling class template member function 'minHeapTree<int>::minHeapTree(int)'
+  c:\users\alex\source\repos\heapstructures\heapstructures\heapstructures.cpp(14): note: see reference to function template instantiation 'minHeapTree<int>::minHeapTree(int)' being compiled
+  c:\users\alex\source\repos\heapstructures\heapstructures\heapstructures.cpp(14): note: see reference to class template instantiation 'minHeapTree<int>' being compiled
+c:\users\alex\source\repos\heapstructures\heapstructures\minheaptree.cpp(113): warning C4018: '<': signed/unsigned mismatch
+  MinHeapTree.cpp
+  Generating Code...
   HeapStructures.vcxproj -> C:\Users\Alex\source\repos\HeapStructures\Debug\HeapStructures.exe

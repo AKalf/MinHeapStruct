@@ -1,5 +1,5 @@
 #pragma once
-#include "bst.h"
+#include "MinHeapTree.h"
 #include <string>
 #include <assert.h>
 #include <queue>
@@ -11,9 +11,10 @@ using namespace std;
 template <class T>
 class visualizer
 {
+public:
 
 	minHeapTree<T> tree_;
-	node<T>* tree_root_;
+	Node<T>* tree_root_;
 	int tree_height_;
 	int tree_nodes_;
 	string** values_;
@@ -26,18 +27,19 @@ class visualizer
 	int space_length_;
 	int space_shift_factor_;
 
-	queue<node<T>*> breadth_first_search();
-	int get_tree_height(node<T>*) const;
+	queue<Node<T>*> breadth_first_search();
+	int get_tree_height(Node<T>*) const;
 	int get_nodes_count(int) const;
 	int get_subtree_width(int) const;
 
-public:
 
 	explicit visualizer(minHeapTree<T>, int = -1, int = -1);
 	~visualizer() = default;
-	void visualize() const;
+	
 
 };
+template<class T>
+void visualize(minHeapTree<T> tree);
 
 
 
@@ -55,7 +57,7 @@ visualizer<T>::visualizer(minHeapTree<T> tree, int node_length /* = -1 */, int s
 	tree_root_ = tree_.GetRoot();
 	tree_height_ = get_tree_height(tree_root_);
 	tree_nodes_ = get_nodes_count(tree_height_) - 1;
-	queue<node<T>*> nodes = breadth_first_search();
+	queue<Node<T>*> nodes = breadth_first_search();
 
 	// Initialize values_ array
 	values_ = new string*[tree_nodes_];
@@ -66,7 +68,7 @@ visualizer<T>::visualizer(minHeapTree<T> tree, int node_length /* = -1 */, int s
 		{
 			// Convert node to string and add it to values vector
 			// also add empty string if node is empty
-			auto value = nodes.front() == nullptr ? "" : to_string(nodes.front()->get_value());
+			auto value = nodes.front() == nullptr ? "" : to_string(nodes.front()->GetPriorityValue());
 			values_[level][node] = value;
 			nodes.pop();
 
@@ -92,14 +94,14 @@ visualizer<T>::visualizer(minHeapTree<T> tree, int node_length /* = -1 */, int s
 }
 
 template <class T>
-queue<node<T>*> visualizer<T>::breadth_first_search()
+queue<Node<T>*> visualizer<T>::breadth_first_search()
 {
-	queue<node<T>*> temp, nodes;
+	queue<Node<T>*> temp, nodes;
 	temp.push(tree_root_);
 
 	for (auto i = 0; i < tree_nodes_; i++)
 	{
-		node<T>* current = temp.front();
+		Node<T>* current = temp.front();
 		temp.pop();
 		nodes.push(current);
 
@@ -110,8 +112,8 @@ queue<node<T>*> visualizer<T>::breadth_first_search()
 		}
 		else
 		{
-			temp.push(current->get_left());
-			temp.push(current->get_right());
+			temp.push(current->GetLeftChild());
+			temp.push(current->GetRightChild());
 		}
 	}
 
@@ -119,11 +121,11 @@ queue<node<T>*> visualizer<T>::breadth_first_search()
 }
 
 template <class T>
-int visualizer<T>::get_tree_height(node<T>* root) const
+int visualizer<T>::get_tree_height(Node<T>* root) const
 {
 	if (root == nullptr) return 0;
-	const int left_height = get_tree_height(root->get_left());
-	const int right_height = get_tree_height(root->get_right());
+	const int left_height = get_tree_height(root->GetLeftChild());
+	const int right_height = get_tree_height(root->GetRightChild());
 	return left_height > right_height ? left_height + 1 : right_height + 1;
 }
 
@@ -143,26 +145,27 @@ int visualizer<T>::get_subtree_width(const int level) const
 }
 
 template <class T>
-void visualizer<T>::visualize() const
+void visualize(minHeapTree<T> tree) 
 {
+	const visualizer<T> v(tree);
 
-	const auto last_level = tree_height_ - 1;
+	const auto last_level = v.tree_height_ - 1;
 
-	for (auto level = 0; level < tree_height_; level++)
+	for (auto level = 0; level < v.tree_height_; level++)
 	{
-		const auto nodes_count = get_nodes_count(level);
+		const auto nodes_count = v.get_nodes_count(level);
 		const auto last_node = nodes_count - 1;
-		const auto subtree_width = get_subtree_width(level);
-		const auto node_indentation = subtree_width / 2 - node_shift_factor_;
-		const auto nodes_spacing = subtree_width - 2 * (node_shift_factor_ - space_shift_factor_);
+		const auto subtree_width = v.get_subtree_width(level);
+		const auto node_indentation = subtree_width / 2 - v.node_shift_factor_;
+		const auto nodes_spacing = subtree_width - 2 * (v.node_shift_factor_ - v.space_shift_factor_);
 		const auto branch_height = (subtree_width + 1) / 4;
 
 		cout << string(node_indentation, ' ');
 
 		for (auto node = 0; node < nodes_count; node++)
 		{
-			const auto node_value = values_[level][node].empty() ? empty_node_ : values_[level][node];
-			cout << setw(node_length_) << setfill('0') << node_value;
+			const auto node_value = v.values_[level][node].empty() ? v.empty_node_ : v.values_[level][node];
+			cout << setw(v.node_length_) << setfill('0') << node_value;
 			cout << string(nodes_spacing * (node != last_node), ' ');
 		}
 
@@ -175,10 +178,10 @@ void visualizer<T>::visualize() const
 
 			for (auto node = 0; node < nodes_count; node++)
 			{
-				const auto has_left_child = !values_[level + 1][2 * node].empty();
-				const auto has_right_child = !values_[level + 1][2 * node + 1].empty();
-				const auto branch_width = node_type_ + 2 * i;
-				const auto branches_spacing = nodes_spacing + 2 * (node_shift_factor_ - 1 - i);
+				const auto has_left_child = !v.values_[level + 1][2 * node].empty();
+				const auto has_right_child = !v.values_[level + 1][2 * node + 1].empty();
+				const auto branch_width = v.node_type_ + 2 * i;
+				const auto branches_spacing = nodes_spacing + 2 * (v.node_shift_factor_ - 1 - i);
 
 				cout << (has_left_child ? '/' : ' ');
 				cout << string(branch_width, ' ');

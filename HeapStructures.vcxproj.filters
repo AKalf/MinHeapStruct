@@ -15,18 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bst.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="visualizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MinHeapTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeapStructures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MinHeapTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
